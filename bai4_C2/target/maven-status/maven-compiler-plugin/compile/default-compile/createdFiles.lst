@@ -1,0 +1,7 @@
+com\example\bai4\service\CategoryService.class
+com\example\bai4\Bai4Application.class
+com\example\bai4\model\Category.class
+com\example\bai4\controller\GuideController.class
+com\example\bai4\controller\ProductWebController.class
+com\example\bai4\model\Product.class
+com\example\bai4\service\ProductService.class

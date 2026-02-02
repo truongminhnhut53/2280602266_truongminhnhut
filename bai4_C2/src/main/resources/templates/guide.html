@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng Dẫn Sử Dụng</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/styles.css" rel="stylesheet">
+    <style>
+        h2 { color: #667eea; margin-top: 30px; margin-bottom: 15px; border-bottom: 2px solid #667eea; padding-bottom: 10px; }
+        .guide-section { margin-bottom: 25px; }
+        .guide-item { background: #f5f5f5; padding: 15px; border-left: 4px solid #667eea; margin-bottom: 15px; border-radius: 4px; }
+        .guide-item strong { color: #667eea; }
+        ul { padding-left: 20px; line-height: 1.8; }
+        li { margin-bottom: 10px; }
+        code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/products">📱 Quản Lý Sản Phẩm</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/products">📋 Danh Sách</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/products/add">➕ Thêm Mới</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/guide">📖 Hướng Dẫn</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container-fluid">
+        <div class="header">
+            <h1>📖 Hướng Dẫn Sử Dụng Hệ Thống</h1>
+            <p>Tìm hiểu cách sử dụng ứng dụng quản lý sản phẩm</p>
+        </div>
+
+        <div class="content">
+            <!-- 1. Danh Sách Sản Phẩm -->
+            <div class="guide-section">
+                <h2>1️⃣ Danh Sách Sản Phẩm</h2>
+                <div class="guide-item">
+                    <strong>Chức năng:</strong>
+                    <ul>
+                        <li>Xem danh sách tất cả sản phẩm trong hệ thống</li>
+                        <li>Hiển thị thông tin: Mã, Tên, Giá, Danh Mục, Ảnh sản phẩm</li>
+                        <li>Sắp xếp và tìm kiếm sản phẩm</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>Cách sử dụng:</strong>
+                    <ul>
+                        <li>Truy cập trang <strong>Danh Sách</strong> từ menu Navigation</li>
+                        <li>Xem thông tin chi tiết của mỗi sản phẩm</li>
+                        <li>Nhấp vào nút <strong>Sửa</strong> để chỉnh sửa</li>
+                        <li>Nhấp vào nút <strong>Xóa</strong> để xóa sản phẩm</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 2. Thêm Sản Phẩm -->
+            <div class="guide-section">
+                <h2>2️⃣ Thêm Sản Phẩm Mới</h2>
+                <div class="guide-item">
+                    <strong>Các trường thông tin:</strong>
+                    <ul>
+                        <li><strong>Mã Sản Phẩm</strong> (*)
+                            <div style="margin-left: 20px; margin-top: 5px;">
+                                - Bắt buộc điền<br>
+                                - Dùng để định danh duy nhất sản phẩm
+                            </div>
+                        </li>
+                        <li><strong>Tên Sản Phẩm</strong> (*)
+                            <div style="margin-left: 20px; margin-top: 5px;">
+                                - Bắt buộc điền<br>
+                                - Không được để trống
+                            </div>
+                        </li>
+                        <li><strong>Giá Sản Phẩm</strong> (*)
+                            <div style="margin-left: 20px; margin-top: 5px;">
+                                - Bắt buộc điền<br>
+                                - Giá phải từ 1 đ đến 9.999.999 đ<br>
+                                - Hiệu lực: 1 ≤ Giá ≤ 9,999,999
+                            </div>
+                        </li>
+                        <li><strong>Loại Danh Mục</strong> (*)
+                            <div style="margin-left: 20px; margin-top: 5px;">
+                                - Chọn từ dropdown<br>
+                                - Danh mục hiện có: <strong>Điện thoại, Laptop</strong>
+                            </div>
+                        </li>
+                        <li><strong>Tải Hình Ảnh</strong>
+                            <div style="margin-left: 20px; margin-top: 5px;">
+                                - Tùy chọn (không bắt buộc)<br>
+                                - Tên file không vượt quá 200 ký tự<br>
+                                - Hỗ trợ: JPG, PNG, GIF
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="info">
+                    <strong>💡 Thông tin:</strong> Asterisk (*) đánh dấu các trường bắt buộc. Nếu không điền đầy đủ, hệ thống sẽ hiển thị thông báo lỗi.
+                </div>
+                <div class="success">
+                    <strong>✅ Tải Hình Ảnh:</strong> Bạn có thể kéo và thả file hoặc nhấp để chọn file từ máy tính.
+                </div>
+            </div>
+
+            <!-- 3. Sửa Sản Phẩm -->
+            <div class="guide-section">
+                <h2>3️⃣ Sửa Sản Phẩm</h2>
+                <div class="guide-item">
+                    <strong>Cách sử dụng:</strong>
+                    <ul>
+                        <li>Từ danh sách sản phẩm, nhấp vào nút <strong>Sửa</strong> ở sản phẩm mong muốn</li>
+                        <li>Form sửa sẽ hiển thị thông tin hiện tại</li>
+                        <li>Chỉnh sửa các trường cần thiết</li>
+                        <li>Để cập nhật ảnh mới, chọn file ảnh (nếu không chọn, ảnh cũ sẽ giữ nguyên)</li>
+                        <li>Nhấp nút <strong>Cập Nhật</strong> để lưu thay đổi</li>
+                    </ul>
+                </div>
+                <div class="warning">
+                    <strong>⚠️ Lưu ý:</strong> Nếu có lỗi validation, form sẽ hiển thị lại với các thông báo lỗi chi tiết.
+                </div>
+            </div>
+
+            <!-- 4. Xóa Sản Phẩm -->
+            <div class="guide-section">
+                <h2>4️⃣ Xóa Sản Phẩm</h2>
+                <div class="guide-item">
+                    <strong>Cách sử dụng:</strong>
+                    <ul>
+                        <li>Từ danh sách sản phẩm, nhấp vào nút <strong>Xóa</strong> ở sản phẩm muốn xóa</li>
+                        <li>Xác nhận xóa khi hệ thống yêu cầu</li>
+                        <li>Sản phẩm sẽ bị xóa khỏi hệ thống</li>
+                    </ul>
+                </div>
+                <div class="warning">
+                    <strong>⚠️ Cảnh báo:</strong> Hành động xóa sản phẩm không thể được hoàn tác. Vui lòng xác nhận trước khi xóa.
+                </div>
+            </div>
+
+            <!-- 5. Quy Tắc Validation -->
+            <div class="guide-section">
+                <h2>5️⃣ Quy Tắc Validation</h2>
+                <div class="guide-item">
+                    <strong>Mã Sản Phẩm:</strong>
+                    <ul>
+                        <li>Bắt buộc điền</li>
+                        <li>Không được để trống</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>Tên Sản Phẩm:</strong>
+                    <ul>
+                        <li>Bắt buộc điền</li>
+                        <li>Không được để trống</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>Giá Sản Phẩm:</strong>
+                    <ul>
+                        <li>Bắt buộc điền</li>
+                        <li>Phải là số dương</li>
+                        <li>Tối thiểu: 1 đ</li>
+                        <li>Tối đa: 9.999.999 đ</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>Tên File Ảnh:</strong>
+                    <ul>
+                        <li>Tùy chọn (không bắt buộc)</li>
+                        <li>Nếu có, không vượt quá 200 ký tự</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>Danh Mục:</strong>
+                    <ul>
+                        <li>Bắt buộc chọn</li>
+                        <li>Danh mục hiện có: <strong>Điện thoại, Laptop</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 6. Thông Báo Lỗi -->
+            <div class="guide-section">
+                <h2>6️⃣ Giải Quyết Lỗi</h2>
+                <div class="guide-item">
+                    <strong>Thông báo: "Mã sản phẩm không được để trống"</strong>
+                    <ul>
+                        <li>Bạn chưa nhập mã sản phẩm</li>
+                        <li>Giải pháp: Nhập mã sản phẩm vào trường "Mã Sản Phẩm"</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>Thông báo: "Tên sản phẩm không được để trống"</strong>
+                    <ul>
+                        <li>Bạn chưa nhập tên sản phẩm</li>
+                        <li>Giải pháp: Nhập tên sản phẩm vào trường "Tên Sản Phẩm"</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>Thông báo: "Giá phải từ 1 đồng trở lên"</strong>
+                    <ul>
+                        <li>Giá bạn nhập nhỏ hơn 1 hoặc không phải số</li>
+                        <li>Giải pháp: Nhập giá từ 1 đ trở lên</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>Thông báo: "Giá không được vượt quá 9,999,999 đồng"</strong>
+                    <ul>
+                        <li>Giá bạn nhập vượt quá giới hạn tối đa</li>
+                        <li>Giải pháp: Nhập giá ≤ 9,999,999 đ</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>Thông báo: "Danh mục không được để trống"</strong>
+                    <ul>
+                        <li>Bạn chưa chọn danh mục</li>
+                        <li>Giải pháp: Chọn danh mục từ dropdown "Loại Danh Mục"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Back Link -->
+            <div class="back-link">
+                <a href="/products">⬅️ Quay Lại Danh Sách Sản Phẩm</a>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; color: white; margin-top: 30px; padding: 20px;">
+        <p>&copy; 2025 - Phát triển ứng dụng với J2EE</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
