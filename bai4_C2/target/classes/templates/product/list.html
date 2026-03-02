@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh Sách Sản Phẩm</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <div class="header">
+            <h1>📱 Quản Lý Sản Phẩm</h1>
+            <p>Hệ thống quản lý sản phẩm điện thoại và laptop</p>
+        </div>
+
+        <div class="content">
+            <a href="/products/add" class="btn-add">+ Thêm Sản Phẩm Mới</a>
+
+            <div th:if="${products.isEmpty()}" class="empty-message">
+                <p>Không có sản phẩm nào. <a href="/products/add" style="color: #667eea;">Thêm sản phẩm mới</a></p>
+            </div>
+
+            <div th:if="${!products.isEmpty()}">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Mã</th>
+                        <th>Hình Ảnh</th>
+                        <th>Tên Sản Phẩm</th>
+                        <th>Giá</th>
+                        <th>Danh Mục</th>
+                        <th>Thao Tác</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${products}">
+                        <td th:text="${product.code}"></td>
+                        <td>
+                            <img th:src="@{/uploads/{image}(image=${product.image})}"
+                                 alt="Product"
+                                 class="product-image"
+                                 onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2260%22 height=%2260%22%3E%3Crect fill=%22%23f0f0f0%22 width=%2260%22 height=%2260%22/%3E%3Ctext x=%2230%22 y=%2235%22 fill=%22%23999%22 font-size=%228%22%3E?%3C/text%3E%3C/svg%3E'">
+                        </td>
+                        <td th:text="${product.name}"></td>
+                        <td class="price">
+                            <span th:text="${#numbers.formatInteger(product.price, 1)}"></span> đ
+                        </td>
+                        <td>
+                            <span th:class="${'badge ' + (product.category == 'điện thoại' ? 'badge-phone' : 'badge-laptop')}"
+                                  th:text="${product.category}"></span>
+                        </td>
+                        <td>
+                            <div class="actions">
+                                <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-edit">✏️ Sửa</a>
+                                <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-delete"
+                                   onclick="return confirm('Bạn có chắc muốn xóa sản phẩm này?')">🗑️ Xóa</a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

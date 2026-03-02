@@ -1,25 +1,41 @@
 package com.example.bai4.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.*;
 
+@Entity
+@Table(name = "products")
 public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotBlank(message = "Mã sản phẩm không được để trống")
+    @Column(nullable = false, length = 50)
     private String code;
 
     @NotBlank(message = "Tên sản phẩm không được để trống")
+    @Column(nullable = false, length = 255)
     private String name;
 
     @NotNull(message = "Giá không được để trống")
     @Min(value = 1, message = "Giá phải từ 1 đồng trở lên")
-    @Max(value = 9999999, message = "Giá không được vượt quá 9,999,999 đồng")
+    @Max(value = 999999999, message = "Giá không được vượt quá 999,999,999 đồng")
+    @Column(nullable = false)
     private Long price;
 
     @Size(max = 200, message = "Tên file ảnh không được vượt quá 200 ký tự")
+    @Column(length = 200)
     private String image;
 
     @NotBlank(message = "Danh mục không được để trống")
+    @Column(nullable = false, length = 100)
     private String category;
 
     public Product() {

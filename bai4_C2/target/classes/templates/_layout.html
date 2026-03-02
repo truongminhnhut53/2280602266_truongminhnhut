@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${title} ?: 'Quản Lý Sản Phẩm'">Quản Lý Sản Phẩm</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/styles.css" rel="stylesheet">
     <style>
         body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
         .navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
@@ -41,7 +44,9 @@
 
     <!-- Main Content -->
     <div class="container">
-        <div class="container-main" th:insert="${view}"></div>
+        <div class="container-main" layout:fragment="content">
+            <!-- Nội dung trang con sẽ được chèn vào đây -->
+        </div>
     </div>
 
     <!-- Footer -->
