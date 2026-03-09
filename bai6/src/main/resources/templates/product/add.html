@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Sản Phẩm</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="form-container">
+        <form method="post"
+              enctype="multipart/form-data"
+              th:action="@{/products/add}"
+              th:object="${product}"
+              novalidate>
+
+            <div class="image-section">
+                <h2 style="color: white; margin-bottom: 25px; text-align: center; font-size: 1.5em; font-weight: 600;">
+                    📸 Tải Hình Ảnh Sản Phẩm</h2>
+                <div id="dropZone" class="file-upload-zone">
+                    <div id="dropText">
+                        <p style="font-size: 3em; margin-bottom: 15px; line-height: 1;">🖼️</p>
+                        <p style="font-size: 1.05em; margin-bottom: 8px; font-weight: 600; color: #333;">
+                            Kéo thả hình ảnh hoặc nhấp để chọn
+                        </p>
+                        <p style="font-size: 0.9em; color: #666;">JPG, PNG, GIF | Tối đa 200 kí tự tên file</p>
+                    </div>
+                    <div id="imagePreview" style="display: none; text-align: center;">
+                        <img id="previewImage" src="" alt="Preview"
+                             style="max-width: 100%; max-height: 250px; border-radius: 8px; margin-bottom: 15px; border: 3px solid white;">
+                        <p id="fileName"
+                           style="color: white; font-weight: 600; font-size: 0.95em; margin-bottom: 10px; word-break: break-all;"></p>
+                        <button type="button" onclick="clearImage()"
+                                style="background: rgba(255,255,255,0.2); color: white; padding: 10px 20px; border: 2px solid white; border-radius: 5px; cursor: pointer; font-weight: 600; transition: none;">
+                            🗑️ Chọn Lại
+                        </button>
+                    </div>
+                    <input type="file" id="file" name="file" accept="image/*" style="display: none;">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h1 style="color: #667eea; margin-bottom: 30px; font-size: 1.8em; text-align: center; font-weight: 700;">
+                    ➕ Thêm Sản Phẩm Mới</h1>
+                <div th:if="${error}" class="error-alert" th:text="${error}"></div>
+
+                <div class="form-group" th:classappend="${#fields.hasErrors('code')} ? 'has-error' : null">
+                    <label for="code"><strong>Mã Sản Phẩm</strong> <span class="required">*</span></label>
+                    <input type="text" id="code" name="code" th:value="${product.code}" placeholder="VD: SP001" required>
+                    <span th:if="${#fields.hasErrors('code')}" class="error-message" th:errors="*{code}"></span>
+                </div>
+
+                <div class="form-group" th:classappend="${#fields.hasErrors('name')} ? 'has-error' : null">
+                    <label for="name"><strong>Tên Sản Phẩm</strong> <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" th:value="${product.name}" placeholder="VD: iPhone 15" required>
+                    <span th:if="${#fields.hasErrors('name')}" class="error-message" th:errors="*{name}"></span>
+                </div>
+
+                <div class="form-group" th:classappend="${#fields.hasErrors('price')} ? 'has-error' : null">
+                    <label for="price"><strong>Giá Sản Phẩm</strong> <span class="required">*</span> (đ)</label>
+                    <input type="number" id="price" name="price" th:value="${product.price}" min="1" max="999999999"
+                           placeholder="VD: 25000000" required>
+                    <span th:if="${#fields.hasErrors('price')}" class="error-message" th:errors="*{price}"></span>
+                </div>
+
+                <div class="form-group" th:classappend="${#fields.hasErrors('category')} ? 'has-error' : null">
+                    <label for="category"><strong>Loại Danh Mục</strong> <span class="required">*</span></label>
+                    <select id="category" name="category" required>
+                        <option value="">-- Chọn danh mục --</option>
+                        <option th:each="cat : ${categories}" th:value="${cat.name}" th:text="${cat.name}"
+                                th:selected="${product.category == cat.name}"></option>
+                    </select>
+                    <span th:if="${#fields.hasErrors('category')}" class="error-message" th:errors="*{category}"></span>
+                </div>
+
+                <div class="button-group" style="margin-top: 35px;">
+                    <button type="submit" class="btn-submit"
+                            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; font-weight: 600; letter-spacing: 0.5px;">
+                        ✅ Thêm Sản Phẩm
+                    </button>
+                    <button type="button" class="btn-cancel" onclick="window.location.href='/products'"
+                            style="background: #e8e8e8; border: none; font-weight: 600; letter-spacing: 0.5px;">
+                        ❌ Hủy
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('file');
+        const dropText = document.getElementById('dropText');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewImage = document.getElementById('previewImage');
+        const fileName = document.getElementById('fileName');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.background = '#ede7f6';
+            dropZone.style.borderColor = '#764ba2';
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.style.background = '#f5f5f5';
+            dropZone.style.borderColor = '#667eea';
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.background = '#f5f5f5';
+            dropZone.style.borderColor = '#667eea';
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                handleFileSelect();
+            }
+        });
+
+        fileInput.addEventListener('change', handleFileSelect);
+
+        function handleFileSelect() {
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        previewImage.src = e.target.result;
+                        fileName.textContent = file.name;
+                        dropText.style.display = 'none';
+                        imagePreview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Vui lòng chọn file hình ảnh!');
+                    fileInput.value = '';
+                }
+            }
+        }
+
+        function clearImage() {
+            fileInput.value = '';
+            dropText.style.display = 'block';
+            imagePreview.style.display = 'none';
+        }
+
+        document.addEventListener('dragover', (e) => e.preventDefault());
+        document.addEventListener('drop', (e) => e.preventDefault());
+    </script>
+</div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="vi"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Sản Phẩm</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="form-container">
+        <form method="post"
+              enctype="multipart/form-data"
+              th:action="@{/products/add}"
+              th:object="${product}"
+              novalidate>
+
+            <!-- Image Upload Section -->
+            <div class="image-section">
+                <h2 style="color: white; margin-bottom: 25px; text-align: center; font-size: 1.5em; font-weight: 600;">
+                    📸 Tải Hình Ảnh Sản Phẩm</h2>
+                <div id="dropZone" class="file-upload-zone">
+                    <div id="dropText">
+                        <p style="font-size: 3em; margin-bottom: 15px; line-height: 1;">🖼️</p>
+                        <p style="font-size: 1.05em; margin-bottom: 8px; font-weight: 600; color: #333;">
+                            Kéo thả hình ảnh hoặc nhấp để chọn
+                        </p>
+                        <p style="font-size: 0.9em; color: #666;">JPG, PNG, GIF | Tối đa 200 kí tự tên file</p>
+                    </div>
+                    <div id="imagePreview" style="display: none; text-align: center;">
+                        <img id="previewImage" src="" alt="Preview"
+                             style="max-width: 100%; max-height: 250px; border-radius: 8px; margin-bottom: 15px; border: 3px solid white;">
+                        <p id="fileName"
+                           style="color: white; font-weight: 600; font-size: 0.95em; margin-bottom: 10px; word-break: break-all;"></p>
+                        <button type="button" onclick="clearImage()"
+                                style="background: rgba(255,255,255,0.2); color: white; padding: 10px 20px; border: 2px solid white; border-radius: 5px; cursor: pointer; font-weight: 600; transition: none;">
+                            🗑️ Chọn Lại
+                        </button>
+                    </div>
+                    <input type="file" id="file" name="file" accept="image/*" style="display: none;">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h1 style="color: #667eea; margin-bottom: 30px; font-size: 1.8em; text-align: center; font-weight: 700;">
+                    ➕ Thêm Sản Phẩm Mới</h1>
+                <div th:if="${error}" class="error-alert" th:text="${error}"></div>
+
+                <!-- Mã Sản Phẩm -->
+                <div class="form-group" th:classappend="${#fields.hasErrors('code')} ? 'has-error' : null">
+                    <label for="code"><strong>Mã Sản Phẩm</strong> <span class="required">*</span></label>
+                    <input type="text" id="code" name="code" th:value="${product.code}" placeholder="VD: SP001" required>
+                    <span th:if="${#fields.hasErrors('code')}" class="error-message" th:errors="*{code}"></span>
+                </div>
+
+                <!-- Tên Sản Phẩm -->
+                <div class="form-group" th:classappend="${#fields.hasErrors('name')} ? 'has-error' : null">
+                    <label for="name"><strong>Tên Sản Phẩm</strong> <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" th:value="${product.name}" placeholder="VD: iPhone 15" required>
+                    <span th:if="${#fields.hasErrors('name')}" class="error-message" th:errors="*{name}"></span>
+                </div>
+
+                <!-- Giá Sản Phẩm -->
+                <div class="form-group" th:classappend="${#fields.hasErrors('price')} ? 'has-error' : null">
+                    <label for="price"><strong>Giá Sản Phẩm</strong> <span class="required">*</span> (đ)</label>
+                    <input type="number" id="price" name="price" th:value="${product.price}" min="1" max="999999999"
+                           placeholder="VD: 25000000" required>
+                    <span th:if="${#fields.hasErrors('price')}" class="error-message" th:errors="*{price}"></span>
+                </div>
+
+                <!-- Danh Mục -->
+                <div class="form-group" th:classappend="${#fields.hasErrors('category')} ? 'has-error' : null">
+                    <label for="category"><strong>Loại Danh Mục</strong> <span class="required">*</span></label>
+                    <select id="category" name="category" required>
+                        <option value="">-- Chọn danh mục --</option>
+                        <option th:each="cat : ${categories}" th:value="${cat.name}" th:text="${cat.name}"
+                                th:selected="${product.category == cat.name}"></option>
+                    </select>
+                    <span th:if="${#fields.hasErrors('category')}" class="error-message" th:errors="*{category}"></span>
+                </div>
+
+                <!-- Nút Hành Động -->
+                <div class="button-group" style="margin-top: 35px;">
+                    <button type="submit" class="btn-submit"
+                            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; font-weight: 600; letter-spacing: 0.5px;">
+                        ✅ Thêm Sản Phẩm
+                    </button>
+                    <button type="button" class="btn-cancel" onclick="window.location.href='/products'"
+                            style="background: #e8e8e8; border: none; font-weight: 600; letter-spacing: 0.5px;">
+                        ❌ Hủy
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('file');
+        const dropText = document.getElementById('dropText');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewImage = document.getElementById('previewImage');
+        const fileName = document.getElementById('fileName');
+
+        // Click để chọn file
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        // Drag-drop
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.background = '#ede7f6';
+            dropZone.style.borderColor = '#764ba2';
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.style.background = '#f5f5f5';
+            dropZone.style.borderColor = '#667eea';
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.background = '#f5f5f5';
+            dropZone.style.borderColor = '#667eea';
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                handleFileSelect();
+            }
+        });
+
+        // File input change
+        fileInput.addEventListener('change', handleFileSelect);
+
+        function handleFileSelect() {
+            if (fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        previewImage.src = e.target.result;
+                        fileName.textContent = file.name;
+                        dropText.style.display = 'none';
+                        imagePreview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Vui lòng chọn file hình ảnh!');
+                    fileInput.value = '';
+                }
+            }
+        }
+
+        function clearImage() {
+            fileInput.value = '';
+            dropText.style.display = 'block';
+            imagePreview.style.display = 'none';
+        }
+
+        // Prevent browser from opening file when dropped on page
+        document.addEventListener('dragover', (e) => e.preventDefault());
+        document.addEventListener('drop', (e) => e.preventDefault());
+    </script>
+</div>
+</body>
+</html>
+

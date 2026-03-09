@@ -1,0 +1,15 @@
+D:\bai6\src\main\java\com\example\bai6\Bai6Application.java
+D:\bai6\src\main\java\com\example\bai6\config\SecurityConfig.java
+D:\bai6\src\main\java\com\example\bai6\controller\AuthController.java
+D:\bai6\src\main\java\com\example\bai6\controller\GuideController.java
+D:\bai6\src\main\java\com\example\bai6\controller\ProductController.java
+D:\bai6\src\main\java\com\example\bai6\model\Account.java
+D:\bai6\src\main\java\com\example\bai6\model\Category.java
+D:\bai6\src\main\java\com\example\bai6\model\Product.java
+D:\bai6\src\main\java\com\example\bai6\model\Role.java
+D:\bai6\src\main\java\com\example\bai6\repository\AccountRepository.java
+D:\bai6\src\main\java\com\example\bai6\repository\CategoryRepository.java
+D:\bai6\src\main\java\com\example\bai6\repository\ProductRepository.java
+D:\bai6\src\main\java\com\example\bai6\service\AccountService.java
+D:\bai6\src\main\java\com\example\bai6\service\CategoryService.java
+D:\bai6\src\main\java\com\example\bai6\service\ProductService.java
