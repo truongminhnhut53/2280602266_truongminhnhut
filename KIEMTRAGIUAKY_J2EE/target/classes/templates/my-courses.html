@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{layout :: head('My Courses')}"></th:block>
+</head>
+<body>
+    <th:block th:replace="~{layout :: navbar}"></th:block>
+
+    <div class="container py-5 animate-fade-in">
+        <h2 class="mb-4 fw-bold display-5">My Enrolled Courses</h2>
+
+        <div th:if="${courses.size() == 0}" class="alert alert-info border-0 shadow-sm rounded-4 p-4 d-flex align-items-center">
+            <i class="bi bi-info-circle-fill fs-3 me-3 text-primary"></i>
+            <div>
+                <strong class="d-block fs-5 text-dark">You haven't enrolled in any courses yet.</strong> 
+                <a th:href="@{/home}" class="text-decoration-none text-primary">Browse courses and start learning today!</a>
+            </div>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
+            <div class="col" th:each="course : ${courses}">
+                <div class="card h-100 course-card p-2 border-0" style="border-radius: 20px;">
+                    <img th:if="${course.image != null and !course.image.isEmpty()}" th:src="${course.image}" class="card-img-top img-fluid" th:alt="${course.name}" style="height: 200px; object-fit: cover; border-radius: 14px;">
+                    <div th:unless="${course.image != null and !course.image.isEmpty()}" class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px; border-radius: 14px;">
+                        <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                    </div>
+                    <div class="card-body px-3 pt-4">
+                        <span class="badge bg-success bg-opacity-10 text-success mb-2 px-2 py-1"><i class="bi bi-check-circle me-1"></i>Enrolled</span>
+                        <h5 class="card-title fw-bold mb-3" th:text="${course.name}">Course Name</h5>
+                        <p class="card-text text-muted mb-2"><i class="bi bi-person me-2"></i><span th:text="${course.lecturer}">Lecturer</span></p>
+                        <p class="card-text text-muted mb-4"><i class="bi bi-journal-bookmark me-2"></i><span th:text="${course.credits} + ' Credits'">3 Credits</span></p>
+                        
+                        <div class="d-grid mt-auto">
+                            <a th:href="@{/unenroll/{id}(id=${course.id})}" class="btn btn-outline-danger fw-bold rounded-pill" onclick="return confirm('Bạn có chắc chắn muốn hủy học phần này không?')">
+                                <i class="bi bi-x-circle-fill me-1"></i> Hủy học phần
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:replace="~{layout :: scripts}"></th:block>
+</body>
+</html>

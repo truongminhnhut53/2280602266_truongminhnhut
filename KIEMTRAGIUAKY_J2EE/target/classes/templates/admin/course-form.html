@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{layout :: head('Manage Course')}"></th:block>
+</head>
+<body>
+    <th:block th:replace="~{layout :: navbar}"></th:block>
+
+    <div class="container py-5 animate-fade-in">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-7">
+                <div class="card auth-card p-4 p-md-5 border-0">
+                    <div class="mb-5 text-center">
+                        <i class="bi bi-journal-plus text-primary display-4 mb-3 d-inline-block"></i>
+                        <h2 class="fw-bold" th:text="${course.id == null ? 'Create New Course' : 'Edit Course'}">Manage Course</h2>
+                        <p class="text-muted">Fill in the details to add a new course to the platform.</p>
+                    </div>
+
+                    <form th:action="@{/admin/courses/save}" th:object="${course}" method="post">
+                        <input type="hidden" th:field="*{id}" />
+
+                        <div class="mb-4">
+                            <label for="name" class="form-label fw-bold text-muted small text-uppercase spacing">Course Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg bg-light" id="name" th:field="*{name}" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="image" class="form-label fw-bold text-muted small text-uppercase spacing">Cover Image URL</label>
+                            <input type="url" class="form-control form-control-lg bg-light" id="image" th:field="*{image}" placeholder="https://example.com/image.jpg">
+                            <div class="form-text mt-2"><i class="bi bi-info-circle me-1"></i>Provide a valid URL for the course mockup image.</div>
+                        </div>
+                        
+                        <div class="row mb-4 g-4">
+                            <div class="col-md-6">
+                                <label for="credits" class="form-label fw-bold text-muted small text-uppercase spacing">Credits <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control form-control-lg bg-light" id="credits" th:field="*{credits}" required min="1" max="10">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="category" class="form-label fw-bold text-muted small text-uppercase spacing">Category <span class="text-danger">*</span></label>
+                                <select class="form-select form-select-lg bg-light" id="category" th:field="*{category.id}" required>
+                                    <option value="" disabled selected>-- Select Category --</option>
+                                    <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-5">
+                            <label for="lecturer" class="form-label fw-bold text-muted small text-uppercase spacing">Lecturer Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-lg bg-light" id="lecturer" th:field="*{lecturer}" required>
+                        </div>
+
+                        <div class="d-grid gap-3 d-md-flex justify-content-md-end">
+                            <a th:href="@{/home}" class="btn btn-light border btn-lg px-4 rounded-pill fw-bold text-muted hover-gray">Cancel</a>
+                            <button type="submit" class="btn btn-brand btn-lg px-5 shadow-sm" th:text="${course.id == null ? 'Publish Course' : 'Save Changes'}">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .spacing { letter-spacing: 0.5px; }
+        .hover-gray:hover { background-color: #e5e7eb !important; }
+        .form-control-lg, .form-select-lg { border-radius: 12px; border-color: #e5e7eb; }
+        .form-control-lg:focus, .form-select-lg:focus { box-shadow: 0 0 0 4px rgba(99,102,241,0.15); border-color: var(--brand-color); }
+    </style>
+
+    <th:block th:replace="~{layout :: scripts}"></th:block>
+</body>
+</html>

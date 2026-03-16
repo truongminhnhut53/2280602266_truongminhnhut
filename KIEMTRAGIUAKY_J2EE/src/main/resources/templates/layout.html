@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Course Registration</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-color: #6366f1;
+            --brand-hover: #4f46e5;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+        }
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            background: radial-gradient(circle at top left, #f3e8ff 0%, #e0e7ff 50%, #f3f4f6 100%);
+            color: #1f2937;
+            min-height: 100vh;
+        }
+        .navbar-glass {
+            background: var(--glass-bg) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+        .navbar-brand { 
+            font-weight: 800; 
+            color: var(--brand-color) !important; 
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+        }
+        .nav-link {
+            font-weight: 500;
+            color: #4b5563 !important;
+            transition: color 0.2s;
+        }
+        .nav-link:hover {
+            color: var(--brand-color) !important;
+        }
+        .course-card { 
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+            border-radius: 20px; 
+            border: 1px solid rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06); 
+            overflow: hidden;
+        }
+        .course-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15); 
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+        .btn-brand {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-brand:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        }
+        .btn-outline-brand {
+            border: 2px solid var(--brand-color);
+            color: var(--brand-color);
+            background: transparent;
+            border-radius: 50px;
+            padding: 8px 22px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-outline-brand:hover {
+            background: var(--brand-color);
+            color: white;
+            border-color: var(--brand-color);
+        }
+        .auth-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.7);
+            box-shadow: 0 24px 48px rgba(0,0,0,0.08);
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-title {
+            font-weight: 800;
+            background: linear-gradient(135deg, #1f2937, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .search-bar {
+            border-radius: 50px;
+            border: 1px solid rgba(156, 163, 175, 0.5);
+            padding-left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.3s;
+        }
+        .search-bar:focus {
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+            border-color: var(--brand-color);
+            background: #fff;
+        }
+        .badge-premium {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: white;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 4px 10px;
+        }
+        .form-floating > .form-control {
+            border-radius: 12px;
+            border: 1px solid #d1d5db;
+        }
+        .form-floating > .form-control:focus {
+            border-color: var(--brand-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+        }
+    </style>
+</head>
+<body>
+
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light navbar-glass py-3 sticky-top">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" th:href="@{/home}">
+            <i class="bi bi-mortarboard-fill me-2" style="color: #8b5cf6;"></i> UniCourse
+        </a>
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            
+            <form th:action="@{/home}" method="get" class="d-flex mx-auto w-50 my-3 my-lg-0" role="search">
+                <input class="form-control me-2 search-bar" type="search" placeholder="Search for courses..." aria-label="Search" name="search" th:value="${search}">
+                <button class="btn btn-brand rounded-pill px-4" type="submit">Search</button>
+            </form>
+
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link px-3" th:href="@{/home}">Explore</a>
+                </li>
+                
+                <!-- Authenticated Options -->
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link px-3" th:href="@{/my-courses}" sec:authorize="hasRole('STUDENT')">My Learning</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link px-3 text-success fw-bold" th:href="@{/admin/courses/create}" sec:authorize="hasRole('ADMIN')">
+                        <i class="bi bi-plus-circle-fill me-1"></i> New Course
+                    </a>
+                </li>
+                
+                <li class="nav-item dropdown ms-2" sec:authorize="isAuthenticated()">
+                    <a class="nav-link dropdown-toggle btn btn-light rounded-pill px-3 shadow-sm" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #4f46e5 !important; font-weight: 600;">
+                        <i class="bi bi-person-circle me-1"></i> <span sec:authentication="name">User</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="border-radius: 12px;" aria-labelledby="navbarDropdown">
+                        <li>
+                            <form th:action="@{/logout}" method="post">
+                                <button type="submit" class="dropdown-item text-danger fw-semibold py-2">
+                                    <i class="bi bi-box-arrow-right me-2"></i> Sign Out
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Unauthenticated Options -->
+                <li class="nav-item ms-lg-2" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link fw-semibold" th:href="@{/login}">Log in</a>
+                </li>
+                <li class="nav-item ms-lg-2" sec:authorize="!isAuthenticated()">
+                    <a class="btn btn-brand shadow-sm" th:href="@{/register}">Sign Up Free</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div th:fragment="scripts">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</div>
+</body>
+</html>
