@@ -1,7 +1,0 @@
-target/
-run.out.log
-run.err.log
-app.log
-.m2/
-uploads/
-test_output*.txt
