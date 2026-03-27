@@ -1,0 +1,257 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HÆ°á»›ng Dáº«n Sá»­ Dá»¥ng</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/styles.css" rel="stylesheet">
+    <style>
+        h2 { color: #667eea; margin-top: 30px; margin-bottom: 15px; border-bottom: 2px solid #667eea; padding-bottom: 10px; }
+        .guide-section { margin-bottom: 25px; }
+        .guide-item { background: #f5f5f5; padding: 15px; border-left: 4px solid #667eea; margin-bottom: 15px; border-radius: 4px; }
+        .guide-item strong { color: #667eea; }
+        ul { padding-left: 20px; line-height: 1.8; }
+        li { margin-bottom: 10px; }
+        code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/products">Quan Ly San Pham</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item"><a class="nav-link" href="/products">Danh sach</a></li>
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a class="nav-link" href="/products/add">Them moi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/cart">Gio hang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/guide">Huong dan</a></li>
+                    <li class="nav-item text-white me-lg-3" sec:authorize="isAuthenticated()">
+                        <span>User: <strong sec:authentication="name"></strong></span>
+                    </li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <form th:action="@{/logout}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-link nav-link p-0">Dang xuat</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container-fluid">
+        <div class="header">
+            <h1>ðŸ“– HÆ°á»›ng Dáº«n Sá»­ Dá»¥ng Há»‡ Thá»‘ng</h1>
+            <p>TÃ¬m hiá»ƒu cÃ¡ch sá»­ dá»¥ng á»©ng dá»¥ng quáº£n lÃ½ sáº£n pháº©m</p>
+        </div>
+
+        <div class="content">
+            <!-- 1. Danh SÃ¡ch Sáº£n Pháº©m -->
+            <div class="guide-section">
+                <h2>1ï¸âƒ£ Danh SÃ¡ch Sáº£n Pháº©m</h2>
+                <div class="guide-item">
+                    <strong>Chá»©c nÄƒng:</strong>
+                    <ul>
+                        <li>Xem danh sÃ¡ch táº¥t cáº£ sáº£n pháº©m trong há»‡ thá»‘ng</li>
+                        <li>Hiá»ƒn thá»‹ thÃ´ng tin: MÃ£, TÃªn, GiÃ¡, Danh Má»¥c, áº¢nh sáº£n pháº©m</li>
+                        <li>Sáº¯p xáº¿p vÃ  tÃ¬m kiáº¿m sáº£n pháº©m</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>CÃ¡ch sá»­ dá»¥ng:</strong>
+                    <ul>
+                        <li>Truy cáº­p trang <strong>Danh SÃ¡ch</strong> tá»« menu Navigation</li>
+                        <li>Xem thÃ´ng tin chi tiáº¿t cá»§a má»—i sáº£n pháº©m</li>
+                        <li>Nháº¥p vÃ o nÃºt <strong>Sá»­a</strong> Ä‘á»ƒ chá»‰nh sá»­a</li>
+                        <li>Nháº¥p vÃ o nÃºt <strong>XÃ³a</strong> Ä‘á»ƒ xÃ³a sáº£n pháº©m</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 2. ThÃªm Sáº£n Pháº©m -->
+            <div class="guide-section">
+                <h2>2ï¸âƒ£ ThÃªm Sáº£n Pháº©m Má»›i</h2>
+                <div class="guide-item">
+                    <strong>CÃ¡c trÆ°á»ng thÃ´ng tin:</strong>
+                    <ul>
+                        <li><strong>MÃ£ Sáº£n Pháº©m</strong> (*)
+                            <div style="margin-left: 20px; margin-top: 5px;">
+                                - Báº¯t buá»™c Ä‘iá»n<br>
+                                - DÃ¹ng Ä‘á»ƒ Ä‘á»‹nh danh duy nháº¥t sáº£n pháº©m
+                            </div>
+                        </li>
+                        <li><strong>TÃªn Sáº£n Pháº©m</strong> (*)
+                            <div style="margin-left: 20px; margin-top: 5px;">
+                                - Báº¯t buá»™c Ä‘iá»n<br>
+                                - KhÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng
+                            </div>
+                        </li>
+                        <li><strong>GiÃ¡ Sáº£n Pháº©m</strong> (*)
+                            <div style="margin-left: 20px; margin-top: 5px;">
+                                - Báº¯t buá»™c Ä‘iá»n<br>
+                                - GiÃ¡ pháº£i tá»« 1 Ä‘ Ä‘áº¿n 999.999.999 Ä‘<br>
+                                - Hiá»‡u lá»±c: 1 â‰¤ GiÃ¡ â‰¤ 999,999,999
+                            </div>
+                        </li>
+                        <li><strong>Loáº¡i Danh Má»¥c</strong> (*)
+                            <div style="margin-left: 20px; margin-top: 5px;">
+                                - Chá»n tá»« dropdown<br>
+                                - Danh má»¥c hiá»‡n cÃ³: <strong>Äiá»‡n thoáº¡i, Laptop</strong>
+                            </div>
+                        </li>
+                        <li><strong>Táº£i HÃ¬nh áº¢nh</strong>
+                            <div style="margin-left: 20px; margin-top: 5px;">
+                                - TÃ¹y chá»n (khÃ´ng báº¯t buá»™c)<br>
+                                - TÃªn file khÃ´ng vÆ°á»£t quÃ¡ 200 kÃ½ tá»±<br>
+                                - Há»— trá»£: JPG, PNG, GIF
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="info">
+                    <strong>ðŸ’¡ ThÃ´ng tin:</strong> Asterisk (*) Ä‘Ã¡nh dáº¥u cÃ¡c trÆ°á»ng báº¯t buá»™c. Náº¿u khÃ´ng Ä‘iá»n Ä‘áº§y Ä‘á»§, há»‡ thá»‘ng sáº½ hiá»ƒn thá»‹ thÃ´ng bÃ¡o lá»—i.
+                </div>
+                <div class="success">
+                    <strong>âœ… Táº£i HÃ¬nh áº¢nh:</strong> Báº¡n cÃ³ thá»ƒ kÃ©o vÃ  tháº£ file hoáº·c nháº¥p Ä‘á»ƒ chá»n file tá»« mÃ¡y tÃ­nh.
+                </div>
+            </div>
+
+            <!-- 3. Sá»­a Sáº£n Pháº©m -->
+            <div class="guide-section">
+                <h2>3ï¸âƒ£ Sá»­a Sáº£n Pháº©m</h2>
+                <div class="guide-item">
+                    <strong>CÃ¡ch sá»­ dá»¥ng:</strong>
+                    <ul>
+                        <li>Tá»« danh sÃ¡ch sáº£n pháº©m, nháº¥p vÃ o nÃºt <strong>Sá»­a</strong> á»Ÿ sáº£n pháº©m mong muá»‘n</li>
+                        <li>Form sá»­a sáº½ hiá»ƒn thá»‹ thÃ´ng tin hiá»‡n táº¡i</li>
+                        <li>Chá»‰nh sá»­a cÃ¡c trÆ°á»ng cáº§n thiáº¿t</li>
+                        <li>Äá»ƒ cáº­p nháº­t áº£nh má»›i, chá»n file áº£nh (náº¿u khÃ´ng chá»n, áº£nh cÅ© sáº½ giá»¯ nguyÃªn)</li>
+                        <li>Nháº¥p nÃºt <strong>Cáº­p Nháº­t</strong> Ä‘á»ƒ lÆ°u thay Ä‘á»•i</li>
+                    </ul>
+                </div>
+                <div class="warning">
+                    <strong>âš ï¸ LÆ°u Ã½:</strong> Náº¿u cÃ³ lá»—i validation, form sáº½ hiá»ƒn thá»‹ láº¡i vá»›i cÃ¡c thÃ´ng bÃ¡o lá»—i chi tiáº¿t.
+                </div>
+            </div>
+
+            <!-- 4. XÃ³a Sáº£n Pháº©m -->
+            <div class="guide-section">
+                <h2>4ï¸âƒ£ XÃ³a Sáº£n Pháº©m</h2>
+                <div class="guide-item">
+                    <strong>CÃ¡ch sá»­ dá»¥ng:</strong>
+                    <ul>
+                        <li>Tá»« danh sÃ¡ch sáº£n pháº©m, nháº¥p vÃ o nÃºt <strong>XÃ³a</strong> á»Ÿ sáº£n pháº©m muá»‘n xÃ³a</li>
+                        <li>XÃ¡c nháº­n xÃ³a khi há»‡ thá»‘ng yÃªu cáº§u</li>
+                        <li>Sáº£n pháº©m sáº½ bá»‹ xÃ³a khá»i há»‡ thá»‘ng</li>
+                    </ul>
+                </div>
+                <div class="warning">
+                    <strong>âš ï¸ Cáº£nh bÃ¡o:</strong> HÃ nh Ä‘á»™ng xÃ³a sáº£n pháº©m khÃ´ng thá»ƒ Ä‘Æ°á»£c hoÃ n tÃ¡c. Vui lÃ²ng xÃ¡c nháº­n trÆ°á»›c khi xÃ³a.
+                </div>
+            </div>
+
+            <!-- 5. Quy Táº¯c Validation -->
+            <div class="guide-section">
+                <h2>5ï¸âƒ£ Quy Táº¯c Validation</h2>
+                <div class="guide-item">
+                    <strong>MÃ£ Sáº£n Pháº©m:</strong>
+                    <ul>
+                        <li>Báº¯t buá»™c Ä‘iá»n</li>
+                        <li>KhÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>TÃªn Sáº£n Pháº©m:</strong>
+                    <ul>
+                        <li>Báº¯t buá»™c Ä‘iá»n</li>
+                        <li>KhÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>GiÃ¡ Sáº£n Pháº©m:</strong>
+                    <ul>
+                        <li>Báº¯t buá»™c Ä‘iá»n</li>
+                        <li>Pháº£i lÃ  sá»‘ dÆ°Æ¡ng</li>
+                        <li>Tá»‘i thiá»ƒu: 1 Ä‘</li>
+                        <li>Tá»‘i Ä‘a: 999.999.999 Ä‘</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>TÃªn File áº¢nh:</strong>
+                    <ul>
+                        <li>TÃ¹y chá»n (khÃ´ng báº¯t buá»™c)</li>
+                        <li>Náº¿u cÃ³, khÃ´ng vÆ°á»£t quÃ¡ 200 kÃ½ tá»±</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>Danh Má»¥c:</strong>
+                    <ul>
+                        <li>Báº¯t buá»™c chá»n</li>
+                        <li>Danh má»¥c hiá»‡n cÃ³: <strong>Äiá»‡n thoáº¡i, Laptop</strong></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 6. ThÃ´ng BÃ¡o Lá»—i -->
+            <div class="guide-section">
+                <h2>6ï¸âƒ£ Giáº£i Quyáº¿t Lá»—i</h2>
+                <div class="guide-item">
+                    <strong>ThÃ´ng bÃ¡o: "MÃ£ sáº£n pháº©m khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng"</strong>
+                    <ul>
+                        <li>Báº¡n chÆ°a nháº­p mÃ£ sáº£n pháº©m</li>
+                        <li>Giáº£i phÃ¡p: Nháº­p mÃ£ sáº£n pháº©m vÃ o trÆ°á»ng "MÃ£ Sáº£n Pháº©m"</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>ThÃ´ng bÃ¡o: "TÃªn sáº£n pháº©m khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng"</strong>
+                    <ul>
+                        <li>Báº¡n chÆ°a nháº­p tÃªn sáº£n pháº©m</li>
+                        <li>Giáº£i phÃ¡p: Nháº­p tÃªn sáº£n pháº©m vÃ o trÆ°á»ng "TÃªn Sáº£n Pháº©m"</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>ThÃ´ng bÃ¡o: "GiÃ¡ pháº£i tá»« 1 Ä‘á»“ng trá»Ÿ lÃªn"</strong>
+                    <ul>
+                        <li>GiÃ¡ báº¡n nháº­p nhá» hÆ¡n 1 hoáº·c khÃ´ng pháº£i sá»‘</li>
+                        <li>Giáº£i phÃ¡p: Nháº­p giÃ¡ tá»« 1 Ä‘ trá»Ÿ lÃªn</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>ThÃ´ng bÃ¡o: "GiÃ¡ khÃ´ng Ä‘Æ°á»£c vÆ°á»£t quÃ¡ 999,999,999 Ä‘á»“ng"</strong>
+                    <ul>
+                        <li>GiÃ¡ báº¡n nháº­p vÆ°á»£t quÃ¡ giá»›i háº¡n tá»‘i Ä‘a</li>
+                        <li>Giáº£i phÃ¡p: Nháº­p giÃ¡ â‰¤ 999,999,999 Ä‘</li>
+                    </ul>
+                </div>
+                <div class="guide-item">
+                    <strong>ThÃ´ng bÃ¡o: "Danh má»¥c khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng"</strong>
+                    <ul>
+                        <li>Báº¡n chÆ°a chá»n danh má»¥c</li>
+                        <li>Giáº£i phÃ¡p: Chá»n danh má»¥c tá»« dropdown "Loáº¡i Danh Má»¥c"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Back Link -->
+            <div class="back-link">
+                <a href="/products">â¬…ï¸ Quay Láº¡i Danh SÃ¡ch Sáº£n Pháº©m</a>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; color: white; margin-top: 30px; padding: 20px;">
+        <p>&copy; 2025 - PhÃ¡t triá»ƒn á»©ng dá»¥ng vá»›i J2EE</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,115 @@
+package com.example.bai8.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.*;
+
+@Entity
+@Table(name = "products")
+public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @NotBlank(message = "Mã sản phẩm không được để trống")
+    @Size(max = 50, message = "Ma san pham khong duoc vuot qua 50 ky tu")
+    @Column(nullable = false, length = 50)
+    private String code;
+
+    @NotBlank(message = "Tên sản phẩm không được để trống")
+    @Size(max = 255, message = "Ten san pham khong duoc vuot qua 255 ky tu")
+    @Column(nullable = false, length = 255)
+    private String name;
+
+    @NotNull(message = "Giá không được để trống")
+    @Min(value = 1, message = "Giá phải từ 1 đồng trở lên")
+    @Max(value = 999999999, message = "Giá không được vượt quá 999,999,999 đồng")
+    @Column(nullable = false)
+    private Long price;
+
+    @Size(max = 200, message = "Tên file ảnh không được vượt quá 200 ký tự")
+    @Column(length = 200)
+    private String image;
+
+    @NotBlank(message = "Danh mục không được để trống")
+    @Size(max = 100, message = "Danh muc khong duoc vuot qua 100 ky tu")
+    @Column(nullable = false, length = 100)
+    private String category;
+
+    public Product() {
+    }
+
+    public Product(int id, String code, String name, Long price, String image, String category) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+        this.price = price;
+        this.image = image;
+        this.category = category;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", image='" + image + '\'' +
+                ", category='" + category + '\'' +
+                '}';
+    }
+}
